@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="card" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
+
+        {% for u in users %}
+
+        {% if u.username == current_user.username %}
+
+        {% elif u.flag %}
+        <li class="list-group-item"><b>{{ u.username }}</b></li>
+        <a class="btn btn-danger" href="{{ url_for('ig.unfollow', user_id=u.id) }}">UNFollow</a>
+
+        {% else %}
+        <li class="list-group-item"><b>{{ u.username }}</b></li>
+        <a class="btn btn-success" href="{{ url_for('ig.follow', user_id=u.id) }}">Follow</a>
+
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div> -->
+<div id="hero" style="text-align: center; position: relative;">
+  <video
+        loop
+        muted
+        autoplay
+        preload="auto"
+        style="width: 100%; height: auto; z-index: -1;">
+            <source src="{{ url_for('static',filename = 'video.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+  </video>
+  <h1 style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); z-index: 5; font-size: 2rem;">Head over to "Dex" to see selection of pokemon</h1>
+  <h2 style="position: absolute; top: 15%; left: 50%; transform: translate(-50%, -50%); z-index: 10; font-size: 4rem;">Hello Trainer</h2>
+</div>
+
+
+
+
+
+{% include 'footer.html' %}
+
+
+{% endblock %}

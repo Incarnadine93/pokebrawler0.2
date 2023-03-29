@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="pokedex">
+  <h1 style="text-align: center;">Please enter the Pokemon you would<br> like to search in the pokedex</h1>
+
+  <div class="container">
+      <div class="row justify-content-center">
+          <form method="POST" class="col-2">
+              {{ form.csrf_token }}
+              {{ form.pokemonname(class='form-control', placeholder='Pokemon?') }}
+              {{ form.submit(class='btn btn-primary', value='Search') }}
+              {% if current_user.is_authenticated %}
+              <button type="submit" name="keep" class="btn btn-secondary">Catch</button>
+              <button type="submit" name="discard" class="btn btn-danger">Release</button>
+              {% endif %}
+
+          </form>
+      </div>
+  </div>
+  <!-- <div style="display: flex; justify-content: center;">
+      <img src="{{ url_for('static', filename='pokedex.png') }}" style="width:30%">
+  </div> -->
+{% if p_d %}
+        <div class="card" style="width:18rem; justify-content: center;">
+          <img src="{{p_d.Front_Shiny}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{p_d.Name.title()}}</h5>
+            <h6 class="card-subtitle mb-2 text">Ability: {{p_d.Ability}}</h6>
+            <p class="card-text"><strong>STATS</strong></p>
+            <p class="card-text">HP: {{p_d.Base_HP}}</p>
+            <p class="card-text">Attack: {{p_d.Base_ATK}}</p>
+            <p class="card-text">Defense: {{p_d.Base_DEF}}</p>
+          </div>
+        </div>
+</div>
+{% endif %}
+
+{% include 'footer.html' %}
+{% endblock %}

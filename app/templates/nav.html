@@ -1,0 +1,32 @@
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <div class="navbar-nav">
+        <a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='pokeball.gif')}}" style="width: 85%" alt="logo" width="100" > </a>
+        <a class="nav-link" href="{{ url_for('poke.search') }}">Pokedex</a>
+        <!-- <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div> -->
+        {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('auth.logOut') }}">Logout!</a>
+        <a class="nav-link" href="{{ url_for('auth.updateProfile') }}">{{current_user.username.title()}}</a>
+        <a class="nav-link" href="{{ url_for('poke.roster') }}">Roster</a>
+        {% else %}
+        <a class="nav-link" href="{{ url_for('auth.registerPage') }}">Register</a>
+        <a class="nav-link" href="{{ url_for('auth.loginPage') }}">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>

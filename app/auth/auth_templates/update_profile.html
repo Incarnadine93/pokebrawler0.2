@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h1>Update Account Information</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <form method="POST" class="col-4">
+            {{ form.hidden_tag() }}
+
+            {{ form.title(class='form-control', placeholder='Username', value=user.username) }}
+            {{ form.email(class='form-control', placeholder='Email', value=user.email) }}
+            {{ form.submit(class='btn btn-primary', placeholder=' Update Account!') }}
+            
+        </form>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Your Pokemon Roster:</h1>
+
+{% if pokemon_list %}
+  <div class="row">
+    {% for p in pokemon_list %}
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="card">
+          <img src="{{ p.shiny_front }}" class="card-img-top" alt="{{ p.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ p.name }}</h5>
+            <p class="card-text">Ability: {{ p.ability }}</p>
+            <p class="card-text">HP: {{ p.hps }}</p>
+            <p class="card-text">Attack: {{ p.atks }}</p>
+            <p class="card-text">Defense: {{ p.defs }}</p>
+            <form method="post" action="{{ url_for('poke.release', pokemon_id=p.id) }}">
+              <button type="submit" class="btn btn-danger">Release</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>You don't have any Pokemon in your roster yet.</p>
+{% endif %}
+
+{% include 'footer.html' %}
+{% endblock %}
