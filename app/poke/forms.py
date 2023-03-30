@@ -6,6 +6,8 @@ class pokemonform(FlaskForm):
     pokemonname = StringField('Pokemon', validators = [DataRequired()])
     submit = SubmitField()
 
-
+class historyform(FlaskForm):
+    history = StringField('History', validators = [DataRequired()])
+    submit = SubmitField()
 
 

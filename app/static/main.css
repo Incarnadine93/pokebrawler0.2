@@ -26,7 +26,7 @@ body {
 
 .nav-link {
     color: white;
-    margin: 0 8rem;
+    margin: 0 3rem;
 }
 
 .card {
@@ -35,6 +35,12 @@ body {
     margin-bottom: 10px;
     background-color: gray;
     color: black;
+    flex: 33%;
+}
+
+.card-body {
+    background-color: grey;
+    color: white;
 }
 
 h1 {
@@ -62,5 +68,32 @@ footer .text-center {
 }
 
 #pokedex {
+    color: white;
+}
+
+.player_pokemon {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.results {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 32px;
+}
+
+.poke_container {
+    flex: 1;
+}
+.poke_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.flash {
     color: white;
 }

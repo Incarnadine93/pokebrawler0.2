@@ -36,6 +36,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     post = db.relationship('Post', backref='author', lazy=True)
+    win = db.Column(db.Integer, default=0)
+    loss = db.Column(db.Integer, default=0)
     following = db.relationship('User',
         #this is multi-join!
         # c is short for column
@@ -52,6 +54,14 @@ class User(db.Model, UserMixin):
 
     def unfollow(self, user):
         self.following.remove(user)
+        db.session.commit()
+    
+    def winner(self):
+        self.win += 1
+        db.session.commit()
+
+    def loser(self):
+        self.loss += 1
         db.session.commit()
     
 
@@ -162,5 +172,6 @@ class pokemon(db.Model):
 
         }
     
+
 
 

@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
 from werkzeug.security import check_password_hash
 
-from .forms import pokemonform
-from ..models import pokemon
+from .forms import pokemonform, historyform
+from ..models import pokemon, User
 from ..services import findpokemon
 
 
@@ -11,7 +11,6 @@ poke = Blueprint('poke', __name__, template_folder='poke_templates')
 
 
 @poke.route('/search', methods=['GET', 'POST'])
-@login_required
 def search():
     form = pokemonform()
     if request.method == 'POST':
@@ -44,12 +43,60 @@ def search():
     return render_template('search.html', form=form)
 
 
-@poke.route('/pokemon/roster')
+@poke.route('/pokemon/battle')
 @login_required
-def roster():
+def battle():
     user_id = current_user.id
     pokemon_list = pokemon.query.filter_by(user_id=user_id).all()
-    return render_template('roster.html', pokemon_list=pokemon_list)
+    users = User.query.all()
+    userlist = []
+    for u in users:
+        dic = {}
+        dic["username"] = u.username
+        dic["id"] = u.id
+        userlist.append(dic)
+    print(userlist)
+    return render_template('battle.html', pokemon_list=pokemon_list, userlist=userlist)
+
+
+
+@poke.route('/pokemon/battle/<int:user_id> <int:enemy_id>')
+@login_required
+def battle_user(user_id, enemy_id):
+    form = historyform()
+    user = current_user  # get the current user object
+    user_list = pokemon.query.filter_by(user_id=user_id).all()
+    user_total = 0
+    enemy_list = pokemon.query.filter_by(user_id=enemy_id).all()
+    enemy_total = 0
+    enemy = User.query.filter_by(id=enemy_id).first()
+    for poke in user_list:
+        user_total += poke.atks + poke.hps + poke.defs
+    for poke in enemy_list:
+        enemy_total += poke.atks + poke.hps + poke.defs
+    if user_total > enemy_total:
+        user.winner()
+        enemy.loser()
+        flash(f'You won! Your total is {user_total} and enemy total is {enemy_total}')
+    elif user_total < enemy_total:
+        user.loser()
+        enemy.winner()
+        flash(f'You lost! Your total is {user_total} and enemy total is {enemy_total}')
+    else:
+        flash(f'You drew! Your total is {user_total} and enemy total is {enemy_total}')
+    record = f'You current record is {user.win} wins and {user.loss} losses'
+    flash(record)
+    return redirect(url_for('poke.battle_result', user_id=user.id, enemy_id=enemy_id))
+
+@poke.route('/pokemon/battle/result/<int:user_id> <int:enemy_id>')
+@login_required
+def battle_result(user_id, enemy_id):
+    user = User.query.get(user_id)
+    enemy = User.query.get(enemy_id)
+    user_list = pokemon.query.filter_by(user_id=user_id).all()
+    enemy_list = pokemon.query.filter_by(user_id=enemy_id).all()
+    return render_template('result.html', user=user, user_list=user_list, enemy=enemy, enemy_list=enemy_list)
+
 
 @poke.route('/pokemon/release/<int:pokemon_id>', methods=['POST'])
 @login_required
@@ -57,6 +104,5 @@ def release(pokemon_id):
     poke = pokemon.query.get(pokemon_id)  # renamed to 'poke'
     poke.deletepokemon()
     flash(f'Pokemon released: {poke.name}')
-    return redirect(url_for('poke.roster'))
-
+    return redirect(url_for('poke.battle'))
 

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Battle Results:</h1>
+<div class="poke_header">
+  <h2>Your Pokemon:</h2>
+  <h2>Enemy Pokemon:</h2>
+</div>
+<div class="results">
+  <div class="poke_container">
+    <!-- <h2>Your Pokemon:</h2> -->
+    <div class="player_pokemon">
+      {% for p in user_list %}
+      <div class="card">
+          <img src="{{ p.shiny_front }}" class="card-img-top" alt="{{ p.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ p.name }}</h5>
+            <p class="card-text">Ability: {{ p.ability }}</p>
+            <p class="card-text">HP: {{ p.hps }}</p>
+            <p class="card-text">Attack: {{ p.atks }}</p>
+            <p class="card-text">Defense: {{ p.defs }}</p>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="poke_container">
+    <!-- <h2>Enemy Pokemon:</h2> -->
+    <div class="player_pokemon">
+        {% for p in enemy_list %}
+        <div class="card">
+          <img src="{{ p.shiny_front }}" class="card-img-top" alt="{{ p.name }}">
+          <div class="card-body">
+              <h5 class="card-title">{{ p.name }}</h5>
+              <p class="card-text">Ability: {{ p.ability }}</p>
+              <p class="card-text">HP: {{ p.hps }}</p>
+              <p class="card-text">Attack: {{ p.atks }}</p>
+              <p class="card-text">Defense: {{ p.defs }}</p>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+{% if result %}
+<h2>Battle Result:</h2>
+<p>{{ result }}</p>
+{% endif %}
+{% include 'footer.html' %}
+{% endblock %}

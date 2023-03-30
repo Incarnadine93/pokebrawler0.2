@@ -19,12 +19,15 @@
           </form>
       </div>
   </div>
-  <!-- <div style="display: flex; justify-content: center;">
-      <img src="{{ url_for('static', filename='pokedex.png') }}" style="width:30%">
-  </div> -->
+  <div style="display: flex; justify-content: center;">
+    <!-- relative -->
+      <!-- <img src="{{ url_for('static', filename='pokedex.png') }}" style="width:30%"> -->
+      <!-- set exact values to the image.  -->
+  </div>
 {% if p_d %}
         <div class="card" style="width:18rem; justify-content: center;">
           <img src="{{p_d.Front_Shiny}}" class="card-img-top" alt="...">
+          <!-- absolute -->
           <div class="card-body">
             <h5 class="card-title">{{p_d.Name.title()}}</h5>
             <h6 class="card-subtitle mb-2 text">Ability: {{p_d.Ability}}</h6>
@@ -39,3 +42,4 @@
 
 {% include 'footer.html' %}
 {% endblock %}
+

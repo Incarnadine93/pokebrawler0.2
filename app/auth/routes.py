@@ -58,13 +58,13 @@ def registerPage():
             user = User(username, email, password)            
             user.saveUser()
 
-            flash(f'Welcome to INSTURBlog {user.username}', 'success')
+            flash(f'Welcome to PokeBrawler {user.username}', 'success')
             return redirect(url_for('auth.loginPage'))
     return render_template('register.html', form=form)
 
-@auth.route('/update_profile', methods=['GET', 'POST'])
+@auth.route('/update_profile/<int:user_id>', methods=['GET', 'POST'])
 def updateProfile(user_id):
-    form = UpdateAccountForm(user_id)
+    form = UpdateAccountForm()
     if request.method == 'POST':
         if form.validate():
             username = form.username.data
@@ -74,10 +74,11 @@ def updateProfile(user_id):
             current_user.saveUser()
             flash('Profile updated!', 'success')
             return redirect(url_for('homePage'))
-    return render_template('update_profile.html', form=form)
+    return render_template('update_profile.html', form=form, user=current_user)
 
 
 @auth.route('/logout')
 def logOut():
     logout_user()
     return redirect(url_for('homePage'))
+

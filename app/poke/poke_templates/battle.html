@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<h1>Your Pokemon Roster:</h1>
+<h1 style="color: white">Your Pokemon Roster:</h1>
 
 {% if pokemon_list %}
   <div class="row">
     {% for p in pokemon_list %}
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+      <div class="col-sm-2 mb-2" id="roster">
         <div class="card">
           <img src="{{ p.shiny_front }}" class="card-img-top" alt="{{ p.name }}">
           <div class="card-body">
@@ -27,6 +27,25 @@
 {% else %}
   <p>You don't have any Pokemon in your roster yet.</p>
 {% endif %}
+
+<div class="container">
+  <div class="row">
+    <div class="card" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
+
+        {% for u in userlist %}
+
+        {% if u.username != current_user.username %}
+
+        <li class="list-group-item"><b>{{ u.username }}</b></li>
+        <a class="btn btn-danger" href="{{ url_for('poke.battle_user', user_id=current_user.id, enemy_id=u.id) }}">Battle</a>
+
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 
 {% include 'footer.html' %}
 {% endblock %}
